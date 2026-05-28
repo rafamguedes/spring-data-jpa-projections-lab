@@ -1,6 +1,7 @@
 package com.api.list.service;
 
 import com.api.list.repository.ItemRepository;
+import com.api.list.service.dto.ItemDTO;
 import com.api.list.service.dto.ItemJPQLDTO;
 import com.api.list.service.dto.ItemObjectDTO;
 import com.api.list.service.dto.ItemTupleDTO;
@@ -29,5 +30,9 @@ public class ItemService {
 
     public List<ItemJPQLDTO> findWithJPQLProjection() {
         return itemRepository.findWithJPQLProjection();
+    }
+
+    public List<ItemDTO> findWithDTOProjection() {
+        return itemRepository.findWithDTOProjection();
     }
 }

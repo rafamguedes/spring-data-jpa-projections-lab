@@ -1,6 +1,7 @@
 package com.api.list.controller;
 
 import com.api.list.service.ItemService;
+import com.api.list.service.dto.ItemDTO;
 import com.api.list.service.dto.ItemJPQLDTO;
 import com.api.list.service.dto.ItemObjectDTO;
 import com.api.list.service.dto.ItemTupleDTO;
@@ -37,5 +38,10 @@ public class ItemController {
     @GetMapping("/jpql")
     public ResponseEntity<List<ItemJPQLDTO>> getByJPQLProjection() {
         return ResponseEntity.ok(itemService.findWithJPQLProjection());
+    }
+
+    @GetMapping("/dto")
+    public ResponseEntity<List<ItemDTO>> getByDTOProjection() {
+        return ResponseEntity.ok(itemService.findWithDTOProjection());
     }
 }

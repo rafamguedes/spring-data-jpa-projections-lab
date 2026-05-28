@@ -1,6 +1,9 @@
 package com.api.list.entity;
 
+import com.api.list.service.dto.ItemDTO;
 import jakarta.persistence.Column;
+import jakarta.persistence.ColumnResult;
+import jakarta.persistence.ConstructorResult;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SqlResultSetMapping;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +24,16 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@SqlResultSetMapping(
+    name = Item.ITEM_MAPPING_DTO,
+    classes =
+        @ConstructorResult(
+            targetClass = ItemDTO.class,
+            columns = {
+              @ColumnResult(name = "itemName", type = String.class),
+              @ColumnResult(name = "itemDescription", type = String.class),
+              @ColumnResult(name = "supplierName", type = String.class)
+            }))
 @Entity
 @Table(name = "items")
 @Getter
@@ -28,6 +42,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item {
+    public static final String ITEM_MAPPING_DTO = "ItemMappingDTO";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

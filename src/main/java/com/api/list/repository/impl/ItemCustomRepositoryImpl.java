@@ -1,6 +1,8 @@
 package com.api.list.repository.impl;
 
+import com.api.list.entity.Item;
 import com.api.list.repository.ItemCustomRepository;
+import com.api.list.service.dto.ItemDTO;
 import com.api.list.service.dto.ItemObjectDTO;
 import com.api.list.service.dto.ItemTupleDTO;
 import jakarta.persistence.EntityManager;
@@ -68,5 +70,22 @@ public class ItemCustomRepositoryImpl implements ItemCustomRepository {
                         (String) obj[2]
                 ))
                 .toList();
+    }
+
+    @Override
+    public List<ItemDTO> findWithDTOProjection() {
+        var sql =
+                "SELECT " +
+                        "i.name AS itemName, " +
+                        "i.description AS itemDescription, " +
+                        "s.name AS supplierName " +
+                        "FROM items i " +
+                        "INNER JOIN supplier s ON i.supplier_id = s.id " +
+                        "WHERE 1=1 " +
+                        "ORDER BY i.name DESC";
+
+        var query = entityManager.createNativeQuery(sql, Item.ITEM_MAPPING_DTO);
+
+        return query.getResultList();
     }
 }
