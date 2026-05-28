@@ -1,5 +1,6 @@
 package com.api.list.repository.impl;
 
+import com.api.list.controller.dto.ItemFilterDTO;
 import com.api.list.entity.Item;
 import com.api.list.repository.ItemCustomRepository;
 import com.api.list.service.dto.ItemDTO;
@@ -73,7 +74,7 @@ public class ItemCustomRepositoryImpl implements ItemCustomRepository {
     }
 
     @Override
-    public List<ItemDTO> findWithDTOProjection() {
+    public List<ItemDTO> findWithDTOProjection(ItemFilterDTO filter) {
         var sql =
                 "SELECT " +
                         "i.name AS itemName, " +
@@ -81,10 +82,45 @@ public class ItemCustomRepositoryImpl implements ItemCustomRepository {
                         "s.name AS supplierName " +
                         "FROM items i " +
                         "INNER JOIN supplier s ON i.supplier_id = s.id " +
-                        "WHERE 1=1 " +
-                        "ORDER BY i.name DESC";
+                        "WHERE 1=1 ";
+
+        if (filter.getItemName() != null) {
+            sql += " AND unaccent(i.name) ILIKE unaccent(:itemName) ";
+        }
+
+        if (filter.getItemDescription() != null) {
+            sql += " AND unaccent(i.description) ILIKE unaccent(:itemDescription) ";
+        }
+
+        if (filter.getSupplierName() != null) {
+            sql += " AND unaccent(s.name) ILIKE unaccent(:supplierName) ";
+        }
+
+        if (filter.getSearch() != null) {
+            sql += " AND (unaccent(i.name) ILIKE unaccent(:search) " +
+                    " OR unaccent(s.name) ILIKE unaccent(:search) " +
+                    " OR unaccent(i.description) ILIKE unaccent(:search)) ";
+        }
+
+        sql += " ORDER BY i.name DESC ";
 
         var query = entityManager.createNativeQuery(sql, Item.ITEM_MAPPING_DTO);
+
+        if (filter.getItemName() != null) {
+            query.setParameter("itemName", "%" + filter.getItemName().trim() + "%");
+        }
+
+        if (filter.getItemDescription() != null) {
+            query.setParameter("itemDescription", "%" + filter.getItemDescription().trim() + "%");
+        }
+
+        if (filter.getSupplierName() != null) {
+            query.setParameter("supplierName", "%" + filter.getSupplierName().trim() + "%");
+        }
+
+        if (filter.getSearch() != null) {
+            query.setParameter("search", "%" + filter.getSearch().trim() + "%");
+        }
 
         return query.getResultList();
     }

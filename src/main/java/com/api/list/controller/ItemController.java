@@ -1,5 +1,6 @@
 package com.api.list.controller;
 
+import com.api.list.controller.dto.ItemFilterDTO;
 import com.api.list.service.ItemService;
 import com.api.list.service.dto.ItemDTO;
 import com.api.list.service.dto.ItemJPQLDTO;
@@ -9,6 +10,7 @@ import com.api.list.service.projection.ItemProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,7 +43,7 @@ public class ItemController {
     }
 
     @GetMapping("/dto")
-    public ResponseEntity<List<ItemDTO>> getByDTOProjection() {
-        return ResponseEntity.ok(itemService.findWithDTOProjection());
+    public ResponseEntity<List<ItemDTO>> getByDTOProjection(ItemFilterDTO filter) {
+        return ResponseEntity.ok(itemService.findWithDTOProjection(filter));
     }
 }

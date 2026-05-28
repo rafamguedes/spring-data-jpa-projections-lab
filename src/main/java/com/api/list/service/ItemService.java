@@ -1,5 +1,6 @@
 package com.api.list.service;
 
+import com.api.list.controller.dto.ItemFilterDTO;
 import com.api.list.repository.ItemRepository;
 import com.api.list.service.dto.ItemDTO;
 import com.api.list.service.dto.ItemJPQLDTO;
@@ -8,6 +9,7 @@ import com.api.list.service.dto.ItemTupleDTO;
 import com.api.list.service.projection.ItemProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class ItemService {
         return itemRepository.findWithJPQLProjection();
     }
 
-    public List<ItemDTO> findWithDTOProjection() {
-        return itemRepository.findWithDTOProjection();
+    public List<ItemDTO> findWithDTOProjection(ItemFilterDTO filter) {
+        return itemRepository.findWithDTOProjection(filter);
     }
 }
