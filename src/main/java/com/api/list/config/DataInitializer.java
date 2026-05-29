@@ -81,7 +81,7 @@ public class DataInitializer implements CommandLineRunner {
 
         List<Supplier> suppliers = supplierRepository.findAll();
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 1000; i++) {
 
             String nome = NOMES_PRODUTOS.get(random.nextInt(NOMES_PRODUTOS.size()));
             String descricao = DESCRICOES.get(random.nextInt(DESCRICOES.size()));
