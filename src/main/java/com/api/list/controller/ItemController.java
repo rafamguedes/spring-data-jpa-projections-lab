@@ -8,11 +8,9 @@ import com.api.list.service.dto.ItemJPQLDTO;
 import com.api.list.service.dto.ItemObjectDTO;
 import com.api.list.service.dto.ItemTupleDTO;
 import com.api.list.service.projection.ItemProjection;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
-    private final ItemReportService itemReportService;
 
     @GetMapping("/tuple")
     public ResponseEntity<List<ItemTupleDTO>> getByTupleProjection() {
@@ -48,15 +45,5 @@ public class ItemController {
     @GetMapping("/dto")
     public ResponseEntity<List<ItemDTO>> getByDTOProjection(ItemFilterDTO filter) {
         return ResponseEntity.ok(itemService.findWithDTOProjection(filter));
-    }
-
-    @GetMapping("/items")
-    public void exportItems(HttpServletResponse response) throws Exception {
-
-        response.setContentType("text/csv");
-
-        response.setHeader("Content-Disposition", "attachment; filename=items.csv");
-
-        itemReportService.generateCsv(response.getOutputStream());
     }
 }
