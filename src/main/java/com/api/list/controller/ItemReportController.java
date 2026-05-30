@@ -17,8 +17,7 @@ public class ItemReportController {
   @GetMapping("/items")
   public void exportItems(HttpServletResponse response) throws Exception {
 
-    response.setContentType("text/csv");
-
+    response.setContentType("text/csv; charset=UTF-8");
     response.setHeader("Content-Disposition", "attachment; filename=items.csv");
 
     service.generateCsv(response.getOutputStream());

@@ -45,7 +45,7 @@ public class Item {
     public static final String ITEM_MAPPING_DTO = "ItemMappingDTO";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")

@@ -22,7 +22,16 @@ public class ItemReportRepository {
               SELECT
                   i.name AS item_name,
                   i.description AS item_description,
-                  s.name AS supplier_name
+                  i.quantity AS item_quantity,
+                  i.buy_price AS item_buy_price,
+                  i.sell_price AS item_sell_price,
+                  i.created_at AS item_created_at,
+                  i.updated_at AS item_updated_at,
+                  s.name AS supplier_name,
+                  s.description AS supplier_description,
+                  s.cnpj AS supplier_cnpj,
+                  s.email AS supplier_email,
+                  s.phone AS supplier_phone
               FROM items i
               INNER JOIN supplier s ON s.id = i.supplier_id
               WHERE 1 = 1
@@ -41,7 +50,14 @@ public class ItemReportRepository {
               new ItemDTO(
                   rs.getString("item_name"),
                   rs.getString("item_description"),
-                  rs.getString("supplier_name"));
+                  rs.getInt("item_quantity"),
+                  rs.getBigDecimal("item_buy_price"),
+                  rs.getBigDecimal("item_sell_price"),
+                  rs.getString("supplier_name"),
+                  rs.getString("supplier_description"),
+                  rs.getString("supplier_cnpj"),
+                  rs.getString("supplier_email"),
+                  rs.getString("supplier_phone"));
 
           consumer.accept(dto);
         });
